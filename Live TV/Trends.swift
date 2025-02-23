@@ -4,115 +4,149 @@ import UIKit
 import Alamofire
 import SwiftyJSON
 import AlamofireImage
-
-class Trends: UIViewController,UITableViewDataSource, UITableViewDelegate {
+import WebKit
+import AVKit
+import AVFoundation
+class Trends: UIViewController {
     
-    var ID: String?  // Receiving the ID from previous screen
+    var ID: String?  // Receiving the ID from the previous screen
     var cat: String?
-    @IBOutlet weak var tblView: UITableView!
-     
+    var player: AVPlayer?
+    var playerLayer: AVPlayerLayer?
     
-    var refreshControl: UIRefreshControl!
-    var arrRes = [[String: AnyObject]]()
-
+    @IBOutlet weak var videoview: UIView!
+    @IBOutlet weak var name1: UILabel!
+    // UIImageView for Play/Pause icon
+       var playPauseIcon: UIImageView!
     override func viewDidLoad() {
         super.viewDidLoad()
         
-        // Initialize the refresh control
-        tblView.dataSource = self
-        tblView.delegate = self
+        // Initialize WKWebView
+        try? AVAudioSession.sharedInstance().setCategory(.playback, mode: .moviePlayback, options: [])
+        try? AVAudioSession.sharedInstance().setActive(true)
+        getvideo()
+        name1.text = cat
+        setupAudioSession()
         
-        refreshControl = UIRefreshControl()
-        refreshControl.addTarget(self, action: #selector(refresh(sender:)), for: .valueChanged)
-        tblView.addSubview(refreshControl) // Adding refresh control to table view
+        // Add tap gesture recognizer to toggle play/pause
+              let tapGesture = UITapGestureRecognizer(target: self, action: #selector(togglePlayPause))
+              videoview.addGestureRecognizer(tapGesture)
+        // Show Play & Pause Icon over player
+        setupPlayPauseIcon()
         
-        // Fetch data initially
-        getData()
     }
+    
+    override func viewDidLayoutSubviews() {
+        super.viewDidLayoutSubviews()
+        playerLayer?.frame = videoview.bounds
+    }
+    
+    // Set up Play/Pause icon
+      func setupPlayPauseIcon() {
+          playPauseIcon = UIImageView(frame: CGRect(x: (videoview.frame.width - 50) / 2, y: (videoview.frame.height - 50) / 2, width: 50, height: 50))
+          playPauseIcon.contentMode = .scaleAspectFit
+          playPauseIcon.isHidden = true  // Initially hidden
+          
+          // Add the image view to the view hierarchy
+          videoview.addSubview(playPauseIcon)
+      }
 
-    // Table view delegate and data source methods
+      // Toggle between play and pause
+      @objc func togglePlayPause() {
+          guard let player = player else { return }
+          
+          if player.rate == 0 {
+              // If the video is paused, play it
+              player.play()
+              // Show pause icon
+              playPauseIcon.image = UIImage(systemName: "pause.circle.fill")
+              showPlayPauseIcon()
+          } else {
+              // If the video is playing, pause it
+              player.pause()
+              // Show play icon
+              playPauseIcon.image = UIImage(systemName: "play.circle.fill")
+              showPlayPauseIcon()
+          }
+      }
+
+      // Show the Play/Pause icon for 1 second
+      func showPlayPauseIcon() {
+          playPauseIcon.isHidden = false
+          DispatchQueue.main.asyncAfter(deadline: .now() + 1.0) {
+              self.playPauseIcon.isHidden = true
+          }
+      }
     
-    func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
-        return 250.0
-    }
-    
-    func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
-        let cell = tableView.dequeueReusableCell(withIdentifier: "jcell")!
-        let dict = arrRes[indexPath.row]
-        
-        if let textLabel = cell.viewWithTag(9) as? UILabel {
-            textLabel.text = dict["n"] as? String
+    func getvideo() {
+        guard let id = ID, let videoURL = URL(string: id) else {
+            print("Invalid or nil video URL")
+            return
         }
         
-        if let imageView = cell.viewWithTag(10) as? UIImageView, let imageURLString = dict["i"] as? String, let url = URL(string: imageURLString) {
-            imageView.af.setImage(withURL: url)
+        // Initialize AVPlayer
+        let videoAsset = AVAsset(url: videoURL)
+        let videoPlayerItem = AVPlayerItem(asset: videoAsset)
+        player = AVPlayer(playerItem: videoPlayerItem)
+        
+        // Create and configure AVPlayerLayer
+        playerLayer = AVPlayerLayer(player: player)
+        playerLayer?.frame = videoview.bounds
+        playerLayer?.videoGravity = .resizeAspectFill
+        
+        if let layer = playerLayer {
+            videoview.layer.addSublayer(layer)
         }
         
-        return cell
+        // Observe video status to check if it loads properly
+        player?.currentItem?.addObserver(self, forKeyPath: "status", options: [.new, .old], context: nil)
+        
+        // Observe playback completion for looping
+        NotificationCenter.default.addObserver(self,
+                                               selector: #selector(playerDidFinishPlaying),
+                                               name: .AVPlayerItemDidPlayToEndTime,
+                                               object: player?.currentItem)
+        
+        player?.play()
+        print("Video started playing") // Debugging log
     }
     
-    func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        return arrRes.count
+    @objc func playerDidFinishPlaying() {
+        player?.seek(to: CMTime.zero)
+        player?.play()
     }
-   // Player View
-  //  override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
-    //    if segue.identifier == "id", let indexPath = self.tblView.indexPathForSelectedRow //{
-          //  let controller = segue.destination as! PlayerViewController
-            //let value = arrRes[indexPath.row]
-            //controller.ID = value["link"] as! String
-       // }
-    //}
-
-    // Fetch data from the API
-    func getData() {
-        let apis = ID
-        let cat1 = cat!
-        AF.request(apis!).responseJSON { responseData in
-            switch responseData.result {
-            case .success(let value):
-                let swiftyJsonVar = JSON(value)
-                
-                if let resData = swiftyJsonVar[cat1].arrayObject {
-                    self.arrRes = resData as! [[String: AnyObject]]
+    
+    
+    override func observeValue(forKeyPath keyPath: String?, of object: Any?, change: [NSKeyValueChangeKey : Any]?, context: UnsafeMutableRawPointer?) {
+        if keyPath == "status" {
+            if let playerItem = object as? AVPlayerItem {
+                switch playerItem.status {
+                case .readyToPlay:
+                    print("Video is ready to play")
+                case .failed:
+                    print("Playback error: \(playerItem.error?.localizedDescription ?? "Unknown error")")
+                case .unknown:
+                    print("Unknown error occurred")
+                @unknown default:
+                    print("Unhandled status")
                 }
-                
-                if self.arrRes.count > 0 {
-                    self.tblView.reloadData()
-                }
-                
-            case .failure(let error):
-                print("Error fetching data: \(error.localizedDescription)")
             }
         }
     }
-   
-
-    // Refresh control action
-    @objc func refresh(sender: AnyObject) {
-        getData()
-        
-        // End refresh control animation after 2 seconds
-        DispatchQueue.main.asyncAfter(deadline: .now() + 2) {
-            self.refreshControl.endRefreshing()
-            self.view.setNeedsDisplay()
-        }
-    }
     
-    // Show alert if no internet connection
-    func showEventsAccessDeniedAlert() {
-        let alertController = UIAlertController(title: "No Internet Connection", message: "Please Connect Your Mobile Data or WIFI Connection", preferredStyle: .alert)
-        
-        let settingsAction = UIAlertAction(title: "Settings", style: .default) { _ in
-            if let appSettings = URL(string: UIApplication.openSettingsURLString) {
-                UIApplication.shared.open(appSettings)
-            }
+    
+    deinit {
+        NotificationCenter.default.removeObserver(self)
+        player?.currentItem?.removeObserver(self, forKeyPath: "status")
+    }
+    func setupAudioSession() {
+        do {
+            let audioSession = AVAudioSession.sharedInstance()
+            try audioSession.setCategory(.playback, mode: .moviePlayback, options: [])
+            try audioSession.setActive(true, options: .notifyOthersOnDeactivation)
+            print("Audio session activated")
+        } catch {
+            print("Failed to set up audio session: \(error.localizedDescription)")
         }
-        
-        alertController.addAction(settingsAction)
-        
-        let cancelAction = UIAlertAction(title: "OK", style: .cancel, handler: nil)
-        alertController.addAction(cancelAction)
-        
-        present(alertController, animated: true, completion: nil)
     }
 }
