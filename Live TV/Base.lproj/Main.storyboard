@@ -21,21 +21,15 @@
                                 <rect key="frame" x="0.0" y="0.0" width="393" height="842"/>
                                 <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                                 <prototypes>
-                                    <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" selectionStyle="default" indentationWidth="10" reuseIdentifier="jcell" rowHeight="293" id="9Yi-Hc-Kyv">
-                                        <rect key="frame" x="0.0" y="50" width="393" height="293"/>
+                                    <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" selectionStyle="default" indentationWidth="10" reuseIdentifier="jcell" rowHeight="153" id="9Yi-Hc-Kyv">
+                                        <rect key="frame" x="0.0" y="50" width="393" height="153"/>
                                         <autoresizingMask key="autoresizingMask"/>
                                         <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" insetsLayoutMarginsFromSafeArea="NO" tableViewCell="9Yi-Hc-Kyv" id="97w-nA-fb5">
-                                            <rect key="frame" x="0.0" y="0.0" width="393" height="293"/>
+                                            <rect key="frame" x="0.0" y="0.0" width="393" height="153"/>
                                             <autoresizingMask key="autoresizingMask"/>
                                             <subviews>
-                                                <label opaque="NO" userInteractionEnabled="NO" tag="9" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" misplaced="YES" text="Label" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontForContentSizeCategory="YES" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="Jzg-4k-RRO">
-                                                    <rect key="frame" x="20" y="220" width="42" height="20.666666666666629"/>
-                                                    <fontDescription key="fontDescription" name="Symbol" family="Symbol" pointSize="19"/>
-                                                    <nil key="textColor"/>
-                                                    <nil key="highlightedColor"/>
-                                                </label>
                                                 <imageView userInteractionEnabled="NO" tag="10" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" layoutMarginsFollowReadableWidth="YES" id="ShO-qN-o6m">
-                                                    <rect key="frame" x="0.0" y="16" width="393" height="173"/>
+                                                    <rect key="frame" x="20" y="11" width="122" height="106"/>
                                                     <autoresizingMask key="autoresizingMask"/>
                                                     <constraints>
                                                         <constraint firstAttribute="height" constant="173" id="Fqc-9F-Wli"/>
@@ -44,6 +38,12 @@
                                                         <constraint firstAttribute="height" relation="greaterThanOrEqual" constant="173" id="ekt-AU-a08"/>
                                                     </constraints>
                                                 </imageView>
+                                                <label opaque="NO" userInteractionEnabled="NO" tag="9" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" misplaced="YES" text="Label" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontForContentSizeCategory="YES" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="Jzg-4k-RRO">
+                                                    <rect key="frame" x="164" y="30" width="209" height="87"/>
+                                                    <fontDescription key="fontDescription" name="Symbol" family="Symbol" pointSize="19"/>
+                                                    <nil key="textColor"/>
+                                                    <nil key="highlightedColor"/>
+                                                </label>
                                             </subviews>
                                             <constraints>
                                                 <constraint firstItem="ShO-qN-o6m" firstAttribute="top" secondItem="97w-nA-fb5" secondAttribute="topMargin" constant="5" id="Mgb-la-pVI"/>

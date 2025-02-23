@@ -7,9 +7,9 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
-		402AD5A72D61638C008E4F76 /* AlamofireImage in Frameworks */ = {isa = PBXBuildFile; productRef = 402AD5A62D61638C008E4F76 /* AlamofireImage */; };
-		402AD5AA2D61639D008E4F76 /* SwiftyJSON in Frameworks */ = {isa = PBXBuildFile; productRef = 402AD5A92D61639D008E4F76 /* SwiftyJSON */; };
-		402AD5AD2D6163B0008E4F76 /* Alamofire in Frameworks */ = {isa = PBXBuildFile; productRef = 402AD5AC2D6163B0008E4F76 /* Alamofire */; };
+		4090900E2D6BBD00008CBBC4 /* Alamofire in Frameworks */ = {isa = PBXBuildFile; productRef = 4090900D2D6BBD00008CBBC4 /* Alamofire */; };
+		409090112D6BBD0E008CBBC4 /* SwiftyJSON in Frameworks */ = {isa = PBXBuildFile; productRef = 409090102D6BBD0E008CBBC4 /* SwiftyJSON */; };
+		409090142D6BBD1A008CBBC4 /* AlamofireImage in Frameworks */ = {isa = PBXBuildFile; productRef = 409090132D6BBD1A008CBBC4 /* AlamofireImage */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -71,9 +71,9 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				402AD5AD2D6163B0008E4F76 /* Alamofire in Frameworks */,
-				402AD5AA2D61639D008E4F76 /* SwiftyJSON in Frameworks */,
-				402AD5A72D61638C008E4F76 /* AlamofireImage in Frameworks */,
+				409090112D6BBD0E008CBBC4 /* SwiftyJSON in Frameworks */,
+				4090900E2D6BBD00008CBBC4 /* Alamofire in Frameworks */,
+				409090142D6BBD1A008CBBC4 /* AlamofireImage in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -135,9 +135,9 @@
 			);
 			name = "Live TV";
 			packageProductDependencies = (
-				402AD5A62D61638C008E4F76 /* AlamofireImage */,
-				402AD5A92D61639D008E4F76 /* SwiftyJSON */,
-				402AD5AC2D6163B0008E4F76 /* Alamofire */,
+				4090900D2D6BBD00008CBBC4 /* Alamofire */,
+				409090102D6BBD0E008CBBC4 /* SwiftyJSON */,
+				409090132D6BBD1A008CBBC4 /* AlamofireImage */,
 			);
 			productName = "Live TV";
 			productReference = 402AD56F2D616318008E4F76 /* Live TV.app */;
@@ -222,10 +222,9 @@
 			mainGroup = 402AD5662D616313008E4F76;
 			minimizedProjectReferenceProxies = 1;
 			packageReferences = (
-				402AD5A52D61638C008E4F76 /* XCRemoteSwiftPackageReference "AlamofireImage" */,
-				402AD5A82D61639D008E4F76 /* XCRemoteSwiftPackageReference "SwiftyJSON" */,
-				402AD5AB2D6163B0008E4F76 /* XCRemoteSwiftPackageReference "Alamofire" */,
-				40908FF32D6BB53B008CBBC4 /* XCRemoteSwiftPackageReference "googleads-mobile-ios-examples" */,
+				4090900C2D6BBD00008CBBC4 /* XCRemoteSwiftPackageReference "Alamofire" */,
+				4090900F2D6BBD0E008CBBC4 /* XCRemoteSwiftPackageReference "SwiftyJSON" */,
+				409090122D6BBD1A008CBBC4 /* XCRemoteSwiftPackageReference "AlamofireImage" */,
 			);
 			preferredProjectObjectVersion = 77;
 			productRefGroup = 402AD5702D616318008E4F76 /* Products */;
@@ -586,23 +585,7 @@
 /* End XCConfigurationList section */
 
 /* Begin XCRemoteSwiftPackageReference section */
-		402AD5A52D61638C008E4F76 /* XCRemoteSwiftPackageReference "AlamofireImage" */ = {
-			isa = XCRemoteSwiftPackageReference;
-			repositoryURL = "https://github.com/Alamofire/AlamofireImage.git";
-			requirement = {
-				kind = upToNextMajorVersion;
-				minimumVersion = 4.3.0;
-			};
-		};
-		402AD5A82D61639D008E4F76 /* XCRemoteSwiftPackageReference "SwiftyJSON" */ = {
-			isa = XCRemoteSwiftPackageReference;
-			repositoryURL = "https://github.com/SwiftyJSON/SwiftyJSON.git";
-			requirement = {
-				kind = upToNextMajorVersion;
-				minimumVersion = 5.0.2;
-			};
-		};
-		402AD5AB2D6163B0008E4F76 /* XCRemoteSwiftPackageReference "Alamofire" */ = {
+		4090900C2D6BBD00008CBBC4 /* XCRemoteSwiftPackageReference "Alamofire" */ = {
 			isa = XCRemoteSwiftPackageReference;
 			repositoryURL = "https://github.com/Alamofire/Alamofire.git";
 			requirement = {
@@ -610,31 +593,39 @@
 				minimumVersion = 5.10.2;
 			};
 		};
-		40908FF32D6BB53B008CBBC4 /* XCRemoteSwiftPackageReference "googleads-mobile-ios-examples" */ = {
+		4090900F2D6BBD0E008CBBC4 /* XCRemoteSwiftPackageReference "SwiftyJSON" */ = {
 			isa = XCRemoteSwiftPackageReference;
-			repositoryURL = "https://github.com/googleads/googleads-mobile-ios-examples.git";
+			repositoryURL = "https://github.com/SwiftyJSON/SwiftyJSON.git";
 			requirement = {
 				kind = upToNextMajorVersion;
-				minimumVersion = 11.13.0;
+				minimumVersion = 5.0.2;
+			};
+		};
+		409090122D6BBD1A008CBBC4 /* XCRemoteSwiftPackageReference "AlamofireImage" */ = {
+			isa = XCRemoteSwiftPackageReference;
+			repositoryURL = "https://github.com/Alamofire/AlamofireImage.git";
+			requirement = {
+				kind = upToNextMajorVersion;
+				minimumVersion = 4.3.0;
 			};
 		};
 /* End XCRemoteSwiftPackageReference section */
 
 /* Begin XCSwiftPackageProductDependency section */
-		402AD5A62D61638C008E4F76 /* AlamofireImage */ = {
+		4090900D2D6BBD00008CBBC4 /* Alamofire */ = {
 			isa = XCSwiftPackageProductDependency;
-			package = 402AD5A52D61638C008E4F76 /* XCRemoteSwiftPackageReference "AlamofireImage" */;
-			productName = AlamofireImage;
+			package = 4090900C2D6BBD00008CBBC4 /* XCRemoteSwiftPackageReference "Alamofire" */;
+			productName = Alamofire;
 		};
-		402AD5A92D61639D008E4F76 /* SwiftyJSON */ = {
+		409090102D6BBD0E008CBBC4 /* SwiftyJSON */ = {
 			isa = XCSwiftPackageProductDependency;
-			package = 402AD5A82D61639D008E4F76 /* XCRemoteSwiftPackageReference "SwiftyJSON" */;
+			package = 4090900F2D6BBD0E008CBBC4 /* XCRemoteSwiftPackageReference "SwiftyJSON" */;
 			productName = SwiftyJSON;
 		};
-		402AD5AC2D6163B0008E4F76 /* Alamofire */ = {
+		409090132D6BBD1A008CBBC4 /* AlamofireImage */ = {
 			isa = XCSwiftPackageProductDependency;
-			package = 402AD5AB2D6163B0008E4F76 /* XCRemoteSwiftPackageReference "Alamofire" */;
-			productName = Alamofire;
+			package = 409090122D6BBD1A008CBBC4 /* XCRemoteSwiftPackageReference "AlamofireImage" */;
+			productName = AlamofireImage;
 		};
 /* End XCSwiftPackageProductDependency section */
 	};
