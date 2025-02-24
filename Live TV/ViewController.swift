@@ -30,7 +30,7 @@ class ViewController: UIViewController,UITableViewDataSource, UITableViewDelegat
     // Table view delegate and data source methods
     
     func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
-        return 250.0
+        return 270.0
     }
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
