@@ -7,17 +7,22 @@ import AlamofireImage
 import WebKit
 import AVKit
 import AVFoundation
+import MediaPlayer
 class Trends: UIViewController {
     
     var ID: String?  // Receiving the ID from the previous screen
     var cat: String?
     var player: AVPlayer?
     var playerLayer: AVPlayerLayer?
-    
+    var isMuted: Bool = false
     @IBOutlet weak var videoview: UIView!
     @IBOutlet weak var name1: UILabel!
+    
     // UIImageView for Play/Pause icon
        var playPauseIcon: UIImageView!
+    var volumeSlider: UISlider!
+        var muteButton: UIButton!
+    var airplayButton: MPVolumeView!
     override func viewDidLoad() {
         super.viewDidLoad()
         
@@ -33,6 +38,8 @@ class Trends: UIViewController {
               videoview.addGestureRecognizer(tapGesture)
         // Show Play & Pause Icon over player
         setupPlayPauseIcon()
+        setupVolumeControls()
+        setupAirPlayButton()
         
     }
     
@@ -149,4 +156,45 @@ class Trends: UIViewController {
             print("Failed to set up audio session: \(error.localizedDescription)")
         }
     }
+    
+    // Volume Slider
+    func setupVolumeControls() {
+           volumeSlider = UISlider(frame: CGRect(x: 20, y: videoview.frame.height - 50, width: videoview.frame.width - 80, height: 30))
+           volumeSlider.minimumValue = 0
+           volumeSlider.maximumValue = 1
+           volumeSlider.value = player?.volume ?? 0.5
+           volumeSlider.addTarget(self, action: #selector(volumeChanged(_:)), for: .valueChanged)
+           videoview.addSubview(volumeSlider)
+           
+           muteButton = UIButton(frame: CGRect(x: videoview.frame.width - 50, y: videoview.frame.height - 50, width: 30, height: 30))
+           muteButton.setImage(UIImage(systemName: "speaker.fill"), for: .normal)
+           muteButton.addTarget(self, action: #selector(toggleMute), for: .touchUpInside)
+           videoview.addSubview(muteButton)
+       }
+       
+       @objc func volumeChanged(_ sender: UISlider) {
+           player?.volume = sender.value
+           updateMuteButtonIcon()
+       }
+       
+       @objc func toggleMute() {
+           isMuted.toggle()
+           player?.isMuted = isMuted
+           updateMuteButtonIcon()
+       }
+       
+       func updateMuteButtonIcon() {
+           if isMuted || player?.volume == 0 {
+               muteButton.setImage(UIImage(systemName: "speaker.slash.fill"), for: .normal)
+           } else {
+               muteButton.setImage(UIImage(systemName: "speaker.fill"), for: .normal)
+           }
+       }
+    
+    //AirPlay
+    func setupAirPlayButton() {
+           airplayButton = MPVolumeView()
+           airplayButton.showsRouteButton = true
+           videoview.addSubview(airplayButton)
+       }
 }
