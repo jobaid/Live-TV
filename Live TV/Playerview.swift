@@ -1,4 +1,5 @@
 import UIKit
+import AVFAudio
 import WebKit
 
 class Playerview: UIViewController {
@@ -15,6 +16,16 @@ class Playerview: UIViewController {
         setupWebView()
         loadVideoPlayer()
     }
+    
+    // ✅ Enables background audio playback
+      func configureAudioSession() {
+          do {
+              try AVAudioSession.sharedInstance().setCategory(.playback, mode: .default, options: [])
+              try AVAudioSession.sharedInstance().setActive(true)
+          } catch {
+              print("Failed to set audio session:", error.localizedDescription)
+          }
+      }
 
     func setupWebView() {
         let config = WKWebViewConfiguration()
@@ -27,7 +38,7 @@ class Playerview: UIViewController {
 
            NSLayoutConstraint.activate([
                webView.leadingAnchor.constraint(equalTo: view.leadingAnchor), // X = 0
-               webView.topAnchor.constraint(equalTo: view.topAnchor, constant: 76), // Y = 16
+               webView.topAnchor.constraint(equalTo: view.topAnchor, constant: 76), // Y = 76
                webView.trailingAnchor.constraint(equalTo: view.trailingAnchor), // Full width
                webView.heightAnchor.constraint(equalTo: webView.widthAnchor, multiplier: 9.0/16.0) // Maintain 16:9 ratio
            ])
