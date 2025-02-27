@@ -58,16 +58,6 @@ Monetization with Google Ads
 
 The app includes Google AdMob integration to generate revenue. Ensure you have the correct AdMob app ID and ad unit IDs configured in your Info.plist file.
 
-Steps to Enable Google Ads
-
-Register an account on Google AdMob.
-
-Create an ad unit and obtain the AdMob App ID.
-
-Add the App ID in Info.plist:
-
-<key>GADApplicationIdentifier</key>
-<string>your-admob-app-id</string>
 
 Enable necessary privacy permissions for iOS compliance.
 
