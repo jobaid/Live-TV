@@ -86,7 +86,7 @@ class ViewController: UIViewController,UITableViewDataSource, UITableViewDelegat
         if segue.identifier == "id" {
             
             if let indexPath = self.tblView.indexPathForSelectedRow {
-                let controller = segue.destination as! Trends
+                let controller = segue.destination as! Playerview
                 let value = arrRes[indexPath.row]
                 controller.ID = value["videoId"] as? String
                 controller.cat = value["n"] as? String

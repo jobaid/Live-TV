@@ -8,13 +8,16 @@ import WebKit
 import AVKit
 import AVFoundation
 import MediaPlayer
-class Trends: UIViewController {
+
+class Trends: UIViewController{
     
     var ID: String?  // Receiving the ID from the previous screen
     var cat: String?
     var player: AVPlayer?
     var playerLayer: AVPlayerLayer?
     var isMuted: Bool = false
+    var subtitleLabel: UILabel!
+      
     @IBOutlet weak var videoview: UIView!
     @IBOutlet weak var name1: UILabel!
     
@@ -31,7 +34,8 @@ class Trends: UIViewController {
         try? AVAudioSession.sharedInstance().setActive(true)
         getvideo()
         name1.text = cat
-        setupAudioSession()
+        
+       
         
         // Add tap gesture recognizer to toggle play/pause
               let tapGesture = UITapGestureRecognizer(target: self, action: #selector(togglePlayPause))
@@ -41,12 +45,16 @@ class Trends: UIViewController {
         setupVolumeControls()
         setupAirPlayButton()
         
+        
     }
     
     override func viewDidLayoutSubviews() {
         super.viewDidLayoutSubviews()
         playerLayer?.frame = videoview.bounds
+       
     }
+    
+   
     
     // Set up Play/Pause icon
       func setupPlayPauseIcon() {
@@ -146,16 +154,8 @@ class Trends: UIViewController {
         NotificationCenter.default.removeObserver(self)
         player?.currentItem?.removeObserver(self, forKeyPath: "status")
     }
-    func setupAudioSession() {
-        do {
-            let audioSession = AVAudioSession.sharedInstance()
-            try audioSession.setCategory(.playback, mode: .moviePlayback, options: [])
-            try audioSession.setActive(true, options: .notifyOthersOnDeactivation)
-            print("Audio session activated")
-        } catch {
-            print("Failed to set up audio session: \(error.localizedDescription)")
-        }
-    }
+    
+
     
     // Volume Slider
     func setupVolumeControls() {
@@ -197,4 +197,8 @@ class Trends: UIViewController {
            airplayButton.showsRouteButton = true
            videoview.addSubview(airplayButton)
        }
+    
+    
+   
+
 }
